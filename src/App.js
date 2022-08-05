@@ -1,36 +1,53 @@
 import './App.css';
+import React from 'react';
+import searchpkmn from './Component/escenarios/searchpkmn';
+import walking from './Component/imgif/walking.gif';
+import pokeballs from './Component/imgif/atrapar.gif';
+import pelea from './Component/imgif/pelea.png';
 
 function App() {
+
+  const [pkmn, setPkmn] = React.useState('');
+  const [pkmnData, setPkmnData] = React.useState(null);
+
+  const funcsearchpkmn = () => {
+      searchpkmn(pkmn).then(data => {
+          setPkmnData(data);
+      }).catch(err => {
+          console.log(err);
+      }
+      );
+  }
   return (
     <>
     <div class="nes-table-responsive">
       {/* api pokemon https://pokeapi.co/api/v2/pokemon/1?limit=150 */}
       {/* pokeballs*/}
       {/* https://i.pinimg.com/originals/27/ae/5f/27ae5f34f585523fc884c2d479731e16.gif */}
-      <img src={'https://cdn.streamloots.com/uploads/5eb3db772a3fcd0035f7ff40/10172dc2-f05e-4804-948f-94ec8a1747ce.gif'} alt="loading..." style={{width:'78rem'}} />
+      <img src={pokeballs} alt="loading..." style={{width:'78rem'}} />
       {/* pelea */}
-      <img src={'https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/26e9b446-eda5-41f1-9838-b06a36fee8f0/d4rbxni-d2515ef4-2f32-499e-af87-92c2040af945.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcLzI2ZTliNDQ2LWVkYTUtNDFmMS05ODM4LWIwNmEzNmZlZThmMFwvZDRyYnhuaS1kMjUxNWVmNC0yZjMyLTQ5OWUtYWY4Ny05MmMyMDQwYWY5NDUucG5nIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.gmNK4GLZ40yH_0bn4MmUuDMYpsYQ5JkCNQWiZ_nZgYI'} alt="loading..." style={{width:'78rem'}} />
+      <img src={pelea} alt="loading..." style={{width:'78rem'}} />
       {/* busqueda */}
-      <img src={'https://i.imgur.com/0QvfQHI.gif'} alt="loading..." style={{width:'78rem'}} />
+      <img src={walking} alt="loading..." style={{width:'78rem'}} />
       <br /><br />
       <table class="nes-table is-bordered is-centered" style={{width:'117rem'}}>
         <tbody>
           <tr>
             <td>              
-            <div style={{backgroundColor:'#212529', padding:'1rem 0'}}>
+            <div style={{backgroundColor:'#212529', padding:'1rem 0', width:'15%'}}>
               <label>
-                <input type="radio" className="nes-radio is-dark" name="answer-dark" checked />
+                <input type="radio" className="nes-radio is-dark" name="answer-dark" />
                 <span>ATRAPAR</span>
               </label>
 
               <label>
                 <input type="radio" className="nes-radio is-dark" name="answer-dark" />
-                <span>ESCAPAR</span>
+                <span>PELEAR</span>
               </label>
               
               <label>
                 <input type="radio" className="nes-radio is-dark" name="answer-dark" />
-                <span>ATRAPAR</span>
+                <span>ESCAPAR</span>
               </label>
               
               <label>
