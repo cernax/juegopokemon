@@ -1,11 +1,16 @@
 import './App.css';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import Home from './Component/home/home';
+import Inicio from './Component/Inicio/Inicio';
 import searchpkmn from './Component/escenarios/searchpkmn';
 import walking from './Component/imgif/walking.gif';
 import pokeballs from './Component/imgif/atrapar.gif';
 import pelea from './Component/imgif/pelea.png';
+import userEvent from '@testing-library/user-event';
 
 function App() {
+  const [strname, setstrname] = useState('');
+  const [strpass, setstrpass] = useState('');
 
   const [Pkmn, setPkmn] = useState(Math.floor(Math.random() * (151 - 1 + 1)) + 151);
   const [PkmnData, setPkmnData] = useState([]);
@@ -16,6 +21,7 @@ function App() {
   const [Pkmnbuscando, setPkmnbuscando] = useState(false);
   const [Pkmnatapear, setPkmnatapear] = useState(false);
   const [Pkmnfirst, setPkmnfirst] = useState(false);
+  const [islogin, setislogin] = useState(false);
 
   const funcsearchpkmn = () => {
       searchpkmn(Pkmn).then(data => {          
@@ -47,7 +53,7 @@ function App() {
   const firstpkmn = async () => {    
     setPkmnfirst(true);
   }
-  
+
   return (
     <>
     { Pkmnatapear ? 
@@ -119,29 +125,17 @@ function App() {
       <></>
     }
     <div className="nes-table-responsive">
-  { Pkmnfirst ?   
-    <section className="icon-list">
-      <i className="nes-bulbasaur"></i>
-      <i className="nes-charmander"></i>
-      <i className="nes-squirtle"></i>
-    </section>
-    :
-    <></>
-    }
-      <table className="nes-table is-bordered is-centered" style={{width:'28rem'}}>
-        <tbody>
-          <tr>
-            <td>              
-              <div className="nes-container is-rounded is-dark" style={{width:'99%'}}>
-                <p>Buenos dias, desea empezar a buscar pkmns?</p>
-              </div>
-              
-              <button className="nes-btn is-primary" onClick={firstpkmn} >Elegir Inicial</button>
-              <button className="nes-btn is-success" onClick={Buscarpkmn} >Buscar</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+     { islogin ? <>
+        <Inicio 
+          getboolfirstpkmn={ (value)=> setPkmnfirst(value)} 
+          getboolBuscarpkmn={Buscarpkmn} 
+          setname={strname}
+          /></>
+      : 
+      <><Home 
+        getuserbool={(value) => {setislogin(value)}} 
+        getnameusuario={(value) => {setstrname(value)}}
+      /></> }
     </div>
     </>
   );
