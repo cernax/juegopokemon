@@ -46,15 +46,15 @@ export default function Home(props) {
         <br></br>
         <div className="nes-container with-title is-centered">
             <p className="title">Ingreso de Entrenador</p>
-            <div class="nes-field">
-                <label for="name_field">Tu Nombre</label>
+            <div className="nes-field">
+                <label>Tu Nombre</label>
                 <input type="text" id="name_field" className="nes-input" onChange={ (e) => {setstrname(e.target.value)} } />
             </div>
             <div className="nes-field">
-                <label for="name_field">Tu Clave</label>
+                <label>Tu Clave</label>
                 <input type="text" id="name_field" className="nes-input" onChange={ (e) => setstrpass(e.target.value) } />
             </div>
-                <label for="name_field">¿eres chico o chica?</label>
+                <label>¿eres chico o chica?</label>
             <label>
             <input type="radio" className="nes-radio" name="answer" />
             <span>Chico</span>

@@ -1,10 +1,10 @@
 const express = require('express');
-const Model = require('../models/models');
+const Entrenador = require('../models/entrenador');
 const router = express.Router();
 
 //Post Method
 router.post('/post', async (req, res) => {
-    const data = new Model({
+    const data = new Entrenador({
         id: req.body.id,
         nombre: req.body.nombre,
         clave: req.body.clave
@@ -22,7 +22,7 @@ router.post('/post', async (req, res) => {
 //Get all Method
 router.get('/getAll', async (req, res) => {
     try {
-        const data = await Model.find();
+        const data = await Entrenador.find();
         res.json(data)
     }
     catch (error) {
@@ -35,7 +35,7 @@ router.get('/getOne/:nombre/:clave', async (req, res) => {
     try {
         //const data = await Model.findById(req.params.id);
         var query = { nombre: req.params.nombre, clave: req.params.clave };
-        const data = await Model.find(query);
+        const data = await Entrenador.find(query);
         res.json(data)
     }
     catch (error) {
@@ -50,7 +50,7 @@ router.patch('/update/:id', async (req, res) => {
         const updatedData = req.body;
         const options = { new: true };
 
-        const result = await Model.findByIdAndUpdate(
+        const result = await Entrenador.findByIdAndUpdate(
             id, updatedData, options
         )
 
@@ -65,7 +65,7 @@ router.patch('/update/:id', async (req, res) => {
 router.delete('/delete/:id', async (req, res) => {
     try {
         const id = req.params.id;
-        const data = await Model.findByIdAndDelete(id)
+        const data = await Entrenador.findByIdAndDelete(id)
         res.send(`Document with ${data.name} has been deleted..`)
     }
     catch (error) {

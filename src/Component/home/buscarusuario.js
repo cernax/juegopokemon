@@ -1,7 +1,6 @@
 export default function searchuser(username, password) {
     return new Promise((resolve, reject) => {
-        debugger;
-        let url = 'http://localhost:4000/api/getOne/';
+        let url = 'http://localhost:4000/api/entrenador/getOne/';
         fetch(url + username + '/' + password)
         .then(res => res.json())
         .then(data => {

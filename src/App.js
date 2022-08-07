@@ -127,7 +127,6 @@ function App() {
     <div className="nes-table-responsive">
      { islogin ? <>
         <Inicio 
-          getboolfirstpkmn={ (value)=> setPkmnfirst(value)} 
           getboolBuscarpkmn={Buscarpkmn} 
           setname={strname}
           /></>
