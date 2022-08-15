@@ -44,7 +44,7 @@ export default function Home(props) {
   return (
     <div>
         <br></br>
-        <div className="nes-container with-title is-centered">
+        <div className="nes-container with-title is-centered" style={{ width:'36%', margin:'1rem', marginLeft:'auto', marginRight:'auto' }}>
             <p className="title">Ingreso de Entrenador</p>
             <div className="nes-field">
                 <label>Tu Nombre</label>

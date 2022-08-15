@@ -10,9 +10,8 @@ import userEvent from '@testing-library/user-event';
 
 function App() {
   const [strname, setstrname] = useState('');
-  const [strpass, setstrpass] = useState('');
 
-  const [Pkmn, setPkmn] = useState(Math.floor(Math.random() * (151 - 1 + 1)) + 151);
+  const [Pkmn, setPkmn] = useState(1);
   const [PkmnData, setPkmnData] = useState([]);
   const [Pkmnprin, setPkmnprin] = useState([]);
 
@@ -20,10 +19,13 @@ function App() {
   const [PkmnImg, setPkmnImg] = useState(false);  
   const [Pkmnbuscando, setPkmnbuscando] = useState(false);
   const [Pkmnatapear, setPkmnatapear] = useState(false);
+  const [pkmnini, setpkmnini] = useState(0);
   const [Pkmnfirst, setPkmnfirst] = useState(false);
   const [islogin, setislogin] = useState(false);
 
-  const funcsearchpkmn = () => {
+  const funcsearchpkmn = async () => {
+    await setPkmn(generaridpkmnrandom());
+
       searchpkmn(Pkmn).then(data => {          
           setPkmnData(data.sprites.front_default);
       }).catch(err => {
@@ -31,9 +33,12 @@ function App() {
       }
       );
   }
+  const generaridpkmnrandom = () => {
+    return Math.floor(Math.random() * ((151 - 1 )+ 1)) + 1;
+  }
 
   const mipkmn = () => {
-    searchpkmn(4).then(data => {          
+    searchpkmn(pkmnini).then(data => {          
       setPkmnprin(data.sprites.back_default);
     }).catch(err => {
         console.log(err);
@@ -42,12 +47,14 @@ function App() {
 }
 
   const Buscarpkmn = async () => {    
+    
+    setPkmnImg(false); 
     setPkmnbuscando(true);
     setTimeout(() => {
       setPkmnImg(true); 
       setPkmnbuscando(false)}, 10000);
-    funcsearchpkmn();
-    mipkmn();
+    await funcsearchpkmn();
+    await mipkmn();
   }
 
   const firstpkmn = async () => {    
@@ -69,57 +76,59 @@ function App() {
     }
     {
       PkmnImg ? 
-      <div className="nes-table-responsive">
-        {/* pelea */}
-        <img src={PkmnData} alt="pkmn" style={{width:'7rem', position: 'absolute', left:'58%', top:'3%'}} />
-        <img src={Pkmnprin} alt="pkmn" style={{width:'14rem', position: 'absolute', right:'50%', top:'4.9%'}} />
-        <img src={pelea} alt="loading..." style={{width:'28.7rem'}} />
-        <br />
-        <img src="https://w7.pngwing.com/pngs/57/434/png-transparent-8-bit-pokemon-pixel-art-poke-ball-others-rectangle-bitcoin-pokemon-thumbnail.png" alt="loading..." style={{width:'2rem'}} />
-        <img src="https://w7.pngwing.com/pngs/57/434/png-transparent-8-bit-pokemon-pixel-art-poke-ball-others-rectangle-bitcoin-pokemon-thumbnail.png" alt="loading..." style={{width:'2rem'}} />
-        <img src="https://w7.pngwing.com/pngs/57/434/png-transparent-8-bit-pokemon-pixel-art-poke-ball-others-rectangle-bitcoin-pokemon-thumbnail.png" alt="loading..." style={{width:'2rem'}} />
-        <img src="https://w7.pngwing.com/pngs/57/434/png-transparent-8-bit-pokemon-pixel-art-poke-ball-others-rectangle-bitcoin-pokemon-thumbnail.png" alt="loading..." style={{width:'2rem'}} />
-        <img src="https://w7.pngwing.com/pngs/57/434/png-transparent-8-bit-pokemon-pixel-art-poke-ball-others-rectangle-bitcoin-pokemon-thumbnail.png" alt="loading..." style={{width:'2rem'}} />
-        <img src="https://w7.pngwing.com/pngs/57/434/png-transparent-8-bit-pokemon-pixel-art-poke-ball-others-rectangle-bitcoin-pokemon-thumbnail.png" alt="loading..." style={{width:'2rem'}} />
-        <br />
-        <table className="nes-table is-bordered is-centered" style={{width:'28rem'}}>
-          <tbody>
-            <tr>
-              <td>              
-              <div style={{padding:'1rem 0', width:'70%'}}>
-                <label>
-                  <input type="radio" className="nes-radio" name="answer-dark" />
-                  <span>ATRAPAR</span>
-                </label>
+      <div className="nes-container is-centered" style={{ width:'42%', margin:'1rem', marginLeft:'auto', marginRight:'auto' }}>
+        <div className="nes-table-responsive"  style={{ width:'100%', overflow:'hidden'}}>
+          {/* pelea */}
+          <img src={PkmnData} alt="pkmn" style={{width:'15rem', position: 'absolute', left:'60%', top:'17%'}} />
+          <img src={Pkmnprin} alt="pkmn" style={{width:'22rem', position: 'absolute', right:'62%', top:'33.4%'}} />
+          <img src={pelea} alt="loading..." style={{width:'100%'}} />
+          <br />
+          <img src="https://w7.pngwing.com/pngs/57/434/png-transparent-8-bit-pokemon-pixel-art-poke-ball-others-rectangle-bitcoin-pokemon-thumbnail.png" alt="loading..." style={{width:'2rem'}} />
+          <img src="https://w7.pngwing.com/pngs/57/434/png-transparent-8-bit-pokemon-pixel-art-poke-ball-others-rectangle-bitcoin-pokemon-thumbnail.png" alt="loading..." style={{width:'2rem'}} />
+          <img src="https://w7.pngwing.com/pngs/57/434/png-transparent-8-bit-pokemon-pixel-art-poke-ball-others-rectangle-bitcoin-pokemon-thumbnail.png" alt="loading..." style={{width:'2rem'}} />
+          <img src="https://w7.pngwing.com/pngs/57/434/png-transparent-8-bit-pokemon-pixel-art-poke-ball-others-rectangle-bitcoin-pokemon-thumbnail.png" alt="loading..." style={{width:'2rem'}} />
+          <img src="https://w7.pngwing.com/pngs/57/434/png-transparent-8-bit-pokemon-pixel-art-poke-ball-others-rectangle-bitcoin-pokemon-thumbnail.png" alt="loading..." style={{width:'2rem'}} />
+          <img src="https://w7.pngwing.com/pngs/57/434/png-transparent-8-bit-pokemon-pixel-art-poke-ball-others-rectangle-bitcoin-pokemon-thumbnail.png" alt="loading..." style={{width:'2rem'}} />
+          <br />
+          <table className="nes-table is-bordered is-centered" style={{width:'99%'}}>
+            <tbody>
+              <tr>
+                <td>              
+                <div style={{padding:'1rem 0', width:'23rem', margin:'auto'}}>
+                  <label>
+                    <input type="radio" className="nes-radio" name="answer-dark" />
+                    <span>ATRAPAR</span>
+                  </label>
 
-                <label>
-                  <input type="radio" className="nes-radio" name="answer-dark" />
-                  <span>PELEAR</span>
-                </label>
-                
-                <label>
-                  <input type="radio" className="nes-radio" name="answer-dark" />
-                  <span>ESCAPAR</span>
-                </label>
-                
-                <label>
-                  <input type="radio" className="nes-radio" name="answer-dark" />
-                  <span>BOLSA</span>
-                </label>
-              </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+                  <label>
+                    <input type="radio" className="nes-radio" name="answer-dark" />
+                    <span>PELEAR</span>
+                  </label>
+                  
+                  <label>
+                    <input type="radio" className="nes-radio" name="answer-dark" />
+                    <span>ESCAPAR</span>
+                  </label>
+                  
+                  <label>
+                    <input type="radio" className="nes-radio" name="answer-dark" />
+                    <span>BOLSA</span>
+                  </label>
+                </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div> :
       <></>
     }
     {
       Pkmnbuscando ?
       
-      <div className="nes-table-responsive">
+      <div className="nes-table-responsive"  style={{ width:'43%', margin:'1rem', marginLeft:'auto', marginRight:'auto' }}>
         {/* busqueda */}
-        <img src={walking} alt="loading..." style={{width:'28.7rem'}} />
+        <img src={walking} alt="loading..." style={{width:'100%'}} />
       </div>
       :
       <></>
@@ -129,6 +138,7 @@ function App() {
         <Inicio 
           getboolBuscarpkmn={Buscarpkmn} 
           setname={strname}
+          getidpkmnfirst={ async (idfirst) =>  {await setpkmnini(idfirst)} }
           /></>
       : 
       <><Home 
