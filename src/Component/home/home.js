@@ -1,9 +1,12 @@
 import React , {useState} from 'react';
 import buscarusuario from '../home/buscarusuario';
+import boy from '../imgif/boy.gif';
+import girl from '../imgif/girl.gif';
 
 export default function Home(props) {
     const [strname, setstrname] = useState('');
     const [strpass, setstrpass] = useState('');
+    const [tipsexo, settipsexo] = useState(true);
 
     const handleSubmit = async (e) => {
         await buscarusuario(strname, strpass).then(data => {
@@ -52,18 +55,26 @@ export default function Home(props) {
             </div>
             <div className="nes-field">
                 <label>Tu Clave</label>
-                <input type="text" id="name_field" className="nes-input" onChange={ (e) => setstrpass(e.target.value) } />
+                <input type="password" id="name_field" className="nes-input" onChange={ (e) => setstrpass(e.target.value) } />
             </div>
                 <label>¿eres chico o chica?</label>
+                
+            <br />
             <label>
-            <input type="radio" className="nes-radio" name="answer" />
-            <span>Chico</span>
+                <input type="radio" className="nes-radio" name="answer" onChange={ () => settipsexo(true) } checked={tipsexo} />
+                <span>Chico</span>
             </label>
-
             <label>
-            <input type="radio" className="nes-radio" name="answer" />
-            <span>Chica</span>
+                <input type="radio" className="nes-radio" name="answer" onChange={ () => settipsexo(false) }  checked={!tipsexo}/>
+                <span>Chica</span>
             </label>
+            <br />
+            {
+                tipsexo ?
+                <img src={boy} alt='boy' style={{width:'7rem', left:'58%', top:'3%'}} />
+                :
+                <img src={girl} alt='girl' style={{width:'7rem', left:'58%', top:'3%'}} />
+            }
             <br />
             <button type="button" className="nes-btn is-primary" onClick={handleSubmit}>Ingresar</button>
         </div>

@@ -1,17 +1,15 @@
 import './App.css';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Home from './Component/home/home';
 import Inicio from './Component/Inicio/Inicio';
 import searchpkmn from './Component/escenarios/searchpkmn';
 import walking from './Component/imgif/walking.gif';
 import pokeballs from './Component/imgif/atrapar.gif';
 import pelea from './Component/imgif/pelea.png';
-import userEvent from '@testing-library/user-event';
 
 function App() {
   const [strname, setstrname] = useState('');
 
-  const [Pkmn, setPkmn] = useState(1);
   const [PkmnData, setPkmnData] = useState([]);
   const [Pkmnprin, setPkmnprin] = useState([]);
 
@@ -19,46 +17,37 @@ function App() {
   const [PkmnImg, setPkmnImg] = useState(false);  
   const [Pkmnbuscando, setPkmnbuscando] = useState(false);
   const [Pkmnatapear, setPkmnatapear] = useState(false);
-  const [pkmnini, setpkmnini] = useState(0);
-  const [Pkmnfirst, setPkmnfirst] = useState(false);
   const [islogin, setislogin] = useState(false);
 
   const funcsearchpkmn = async () => {
-    await setPkmn(generaridpkmnrandom());
+    let random = await generaridpkmnrandom();
 
-      searchpkmn(Pkmn).then(data => {          
+      searchpkmn(random).then(data => {          
           setPkmnData(data.sprites.front_default);
       }).catch(err => {
           console.log(err);
       }
       );
   }
-  const generaridpkmnrandom = () => {
-    return Math.floor(Math.random() * ((151 - 1 )+ 1)) + 1;
+  const generaridpkmnrandom = async () => {
+    return await Math.floor(Math.random() * ((151 - 1 )+ 1)) + 1;
   }
-
-  const mipkmn = () => {
-    searchpkmn(pkmnini).then(data => {          
+  const mipkmn = async (inicial) => {
+    await searchpkmn(inicial).then(data => {          
       setPkmnprin(data.sprites.back_default);
     }).catch(err => {
         console.log(err);
     }
     );
-}
-
+  }
   const Buscarpkmn = async () => {    
     
     setPkmnImg(false); 
     setPkmnbuscando(true);
     setTimeout(() => {
       setPkmnImg(true); 
-      setPkmnbuscando(false)}, 10000);
+      setPkmnbuscando(false)}, 1000); //10000
     await funcsearchpkmn();
-    await mipkmn();
-  }
-
-  const firstpkmn = async () => {    
-    setPkmnfirst(true);
   }
 
   return (
@@ -78,10 +67,12 @@ function App() {
       PkmnImg ? 
       <div className="nes-container is-centered" style={{ width:'42%', margin:'1rem', marginLeft:'auto', marginRight:'auto' }}>
         <div className="nes-table-responsive"  style={{ width:'100%', overflow:'hidden'}}>
-          {/* pelea */}
-          <img src={PkmnData} alt="pkmn" style={{width:'15rem', position: 'absolute', left:'60%', top:'17%'}} />
-          <img src={Pkmnprin} alt="pkmn" style={{width:'22rem', position: 'absolute', right:'62%', top:'33.4%'}} />
-          <img src={pelea} alt="loading..." style={{width:'100%'}} />
+          {/* pelea  style={{ width:'100%', height:'213px', backgroundImage:`url(${pelea})`, backgroundRepeat:'no-repeat', backgroundSize:'100%', bordercollapse: 'collapse'}} */}
+          <div style={{backgroundImage:`url(${PkmnData})`, position: 'absolute', width: '100%', height: '100%', top:'11%', left:'57%', backgroundRepeat:'no-repeat', backgroundSize:'26%'}}></div>          
+          <div style={{backgroundImage:`url(${Pkmnprin})`, position: 'absolute', width: '100%', height: '100%', backgroundRepeat:'no-repeat', backgroundSize:'29%', backgroundPosition:'10% 71%'}}></div>
+          {/* <div style={{backgroundImage:`url(${pelea})`, width: '100%', height: '100px', backgroundRepeat:'no-repeat', backgroundSize:'100%'}}></div> */}
+          
+          <img src={pelea} alt="loading..." style={{width:'100%'}} id='imgpelea' />
           <br />
           <img src="https://w7.pngwing.com/pngs/57/434/png-transparent-8-bit-pokemon-pixel-art-poke-ball-others-rectangle-bitcoin-pokemon-thumbnail.png" alt="loading..." style={{width:'2rem'}} />
           <img src="https://w7.pngwing.com/pngs/57/434/png-transparent-8-bit-pokemon-pixel-art-poke-ball-others-rectangle-bitcoin-pokemon-thumbnail.png" alt="loading..." style={{width:'2rem'}} />
@@ -138,7 +129,7 @@ function App() {
         <Inicio 
           getboolBuscarpkmn={Buscarpkmn} 
           setname={strname}
-          getidpkmnfirst={ async (idfirst) =>  {await setpkmnini(idfirst)} }
+          getidpkmnfirst={ (idfirst) =>  mipkmn(idfirst) } 
           /></>
       : 
       <><Home 
