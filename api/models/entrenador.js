@@ -12,6 +12,14 @@ const dataSchema = new mongoose.Schema({
     clave: {
         required: true,
         type: String
+    },
+    sexo: {
+        required: true,
+        type: String
+    },
+    team: {
+        required: true,
+        type: Object
     }
 })
 

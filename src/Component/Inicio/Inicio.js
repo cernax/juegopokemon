@@ -3,22 +3,52 @@ import searchteampkmn from "./searchteampkmn";
 import searchpkmn from "../escenarios/searchpkmn";
 
 const pkmns = [
-    { id: 1, value: "bulbasaur", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png" },
-    { id: 2, value: "charmander", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/4.png" },
-    { id: 3, value: "squirtle", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/7.png" }
+    { id: 1, value: "bulbasaur", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png", color:'green' },
+    { id: 4, value: "charmander", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/4.png", color:'red' },
+    { id: 7, value: "squirtle", img: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/7.png", color:'blue' }
     ];
 
 export default function Inicio(props){   
     const [Pkmnfirst, setPkmnfirst] = useState(false);
     const [strname, setstrname] = useState("");
     const [pkmnteam, setpkmnteam] = useState([]);
-
+    
     const firstpkmn = () => {
         setPkmnfirst(true);
     }
 
+    const guarduarini = async (e, pkmnid, pkmnname, pkmnimg) => {
+        debugger;
+        fetch('http://localhost:4000/api/teampkmn/post',{
+            method: 'POST',
+            body: JSON.stringify({
+                idEntrenador: props.settidentrenador,
+                idpkmn: pkmnid,
+                nombrepkmn: pkmnname,
+                imgpkmn: pkmnimg
+            }),
+            headers:{
+                "Accept":"application/json",
+                "Content-Type":"application/json"
+            }
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+                setPkmnfirst(false);
+                props.getboolBuscarpkmn();
+                props.getidpkmnfirst(pkmnid);
+                funcsearchpkmn();
+            })
+            .catch(err => {
+                console.error(err);
+            });
+
+        e.preventDefault();
+    }
+
     const funcsearchpkmn = () => {
-        searchteampkmn(strname).then(data => {
+        searchteampkmn(props.settidentrenador).then(data => {
             setpkmnteam(data);
         }).catch(err => {
             console.log(err);
@@ -33,12 +63,12 @@ export default function Inicio(props){
         <>
         { Pkmnfirst ?   
             <>    
-                <section className="nes-container icon-list is-centered">                
+                <section className="nes-container icon-list is-centered" style={{ width:'42%', margin:'1rem', marginLeft:'auto', marginRight:'auto' }}>                
                 {
                     pkmns.map((pkmn) => {
                         return (
                             <>
-                                <img src={pkmn.img} alt={pkmn.id} style={{width:'7rem', left:'58%', top:'3%'}} />
+                                <img onClick={ (event) => {guarduarini(event, pkmn.id, pkmn.value, pkmn.img);}}  src={pkmn.img} alt={pkmn.id} style={{width:'7rem', left:'58%', top:'3%', margin:'10px', borderStyle:'solid', borderColor:pkmn.color }} />
                             </>
                         );
                     })    
@@ -48,15 +78,15 @@ export default function Inicio(props){
             :
             <></>
         }
-        <div className="nes-container with-title is-centered" style={{ width:'42%', margin:'1rem', marginLeft:'auto', marginRight:'auto' }}>
-        <p className="title">{props.setname}</p>            
-        <div className="nes-container is-rounded is-dark" style={{width:'98%'}}>
-                        <p>Bienvenido, desea empezar a buscar pkmns?</p>
-                    </div>
-                    { pkmnteam.length > 0 ? 
-                    <button className="nes-btn is-success" onClick={ () => { props.getidpkmnfirst(pkmnteam[0].idpkmn); props.getboolBuscarpkmn(); }} >Buscar</button>
-                    : <button className="nes-btn is-primary" onClick={() => setPkmnfirst(true)} >Elegir Inicial</button>
-                    }             
+        <div className="nes-container with-title is-centered" style={{ width:'53%', margin:'1rem auto'}}>
+            <p className="title">{props.setname}</p>            
+            <div className="nes-container is-rounded is-dark" style={{width:'98%'}}>
+                <p>Bienvenido, desea empezar a buscar pkmns?</p>
+            </div>
+            { pkmnteam.length > 0 ? 
+                <button className="nes-btn is-success" onClick={ () => { props.getidpkmnfirst(pkmnteam[0].idpkmn); props.getboolBuscarpkmn(); }} >Buscar</button>
+                : <button className="nes-btn is-primary" onClick={() => setPkmnfirst(true)} >Elegir Inicial</button>
+            }             
         </div>
         </>
     );    

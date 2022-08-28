@@ -3,7 +3,7 @@ const Teampkmn = require('../models/teampkmn');
 const router = express.Router();
 
 //Post Method
-router.post('/', async (req, res) => {
+router.post('/post', async (req, res) => {
     const data = new Teampkmn({
         idEntrenador: req.body.idEntrenador,
         idpkmn: req.body.idpkmn,
@@ -32,10 +32,10 @@ router.get('/getAll', async (req, res) => {
 })
 
 //Get by ID Method
-router.get('/getOne/:nombre/:clave', async (req, res) => {
+router.get('/getOne/:idEntrenador', async (req, res) => {
     try {
         //const data = await Model.findById(req.params.id);
-        var query = { nombre: req.params.nombre, clave: req.params.clave };
+        var query = { idEntrenador: req.params.idEntrenador };
         const data = await Teampkmn.find(query);
         res.json(data)
     }

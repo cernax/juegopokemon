@@ -7,7 +7,9 @@ router.post('/post', async (req, res) => {
     const data = new Entrenador({
         id: req.body.id,
         nombre: req.body.nombre,
-        clave: req.body.clave
+        clave: req.body.clave,
+        sexo: req.body.sexo,
+        team:req.body.team
     })
 
     try {
