@@ -1,32 +1,34 @@
 import './Ingresar.css';
-import React , {useState} from 'react';
-import buscarusuario from '../home/buscarusuario';
+import React , {useEffect, useState} from 'react';
+import buscarusuario from './buscarusuario';
 import boy from '../imgif/boy.gif';
 import girl from '../imgif/girl.gif';
+import searchlasid from '../ingreso/buscarultimoid';
 
-export default function Home(props) {
+export default function Ingreso(props) {
     const [strname, setstrname] = useState('');
     const [strpass, setstrpass] = useState('');
+    const [strcorreo, setstrcorreo] = useState('');
+    const [intidentrenador, setintidentrenador] = useState(0);
     const [tipsexo, settipsexo] = useState(true);
 
     const handleSubmit = async (e) => {
         await buscarusuario(strname, strpass).then(data => {
             if(data.length > 0) {
-                debugger;
                 props.getuserbool(true);
-                props.getidentrenador(data[0].id);
+                props.getidentrenador(parseInt(data[0].id));
                 props.getsexo(data[0].sexo);
             }
-            else{
-                debugger;
+            else{         
                 const sexo = tipsexo ? '0' : '1'; //0 hombre, 1 mujer
                 fetch('http://localhost:4000/api/entrenador/post',{
                     method: 'POST',
                     body: JSON.stringify({
-                        id:2,
+                        id:intidentrenador,
                         nombre: strname,
                         clave: strpass,
                         sexo: sexo,
+                        correo: strcorreo,
                         team:[]
                     }),
                     headers:{
@@ -64,6 +66,15 @@ export default function Home(props) {
         // flip-vertical-left
     }
 
+    useEffect(() => {
+        searchlasid().then(data => {
+            setintidentrenador(parseInt(data[0].id) + 1);
+        }).catch(err => {
+            console.log(err);
+        });
+    } , []);
+    
+
   return (
     <div>
         <br></br>
@@ -90,14 +101,18 @@ export default function Home(props) {
                 </div>
                 <div id='registrouser' className="flip-box-back" >
                     <div className="nes-container with-title is-centered" style={{ width:'30%', margin:'1rem auto'}}>
-                        <p className="title">Ingreso de Entrenador</p>
+                        <p className="title">Registro de Entrenador</p>
                         <div className="nes-field">
                             <label>Tu Nombre</label>
-                            <input type="text" id="name_field" className="nes-input" onChange={ (e) => {setstrname(e.target.value)} } />
+                            <input type="text" id="newentrenador" className="nes-input" onChange={ (e) => {setstrname(e.target.value)} } />
+                        </div>
+                        <div className="nes-field">
+                            <label>Tu Correo</label>
+                            <input type="text" id="newcorreo" className="nes-input" onChange={ (e) => {setstrcorreo(e.target.value)} } />
                         </div>
                         <div className="nes-field">
                             <label>Tu Clave</label>
-                            <input type="password" id="name_field" className="nes-input" onChange={ (e) => setstrpass(e.target.value) } />
+                            <input type="password" id="newpass" className="nes-input" onChange={ (e) => setstrpass(e.target.value) } />
                         </div>
                             <label>¿eres chico o chica?</label>
                             

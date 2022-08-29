@@ -9,6 +9,7 @@ router.post('/post', async (req, res) => {
         nombre: req.body.nombre,
         clave: req.body.clave,
         sexo: req.body.sexo,
+        correo: req.body.correo,
         team:req.body.team
     })
 
@@ -31,8 +32,18 @@ router.get('/getAll', async (req, res) => {
         res.status(500).json({ message: error.message })
     }
 })
+//Get last Method
+router.get('/getLast', async (req, res) => {
+    try {
+        const data = await Entrenador.find().sort({ _id:-1 }).limit(1);
+        res.json(data)
+    }
+    catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+})
 
-//Get by ID Method
+//Get by user pass Method
 router.get('/getOne/:nombre/:clave', async (req, res) => {
     try {
         //const data = await Model.findById(req.params.id);
@@ -44,17 +55,29 @@ router.get('/getOne/:nombre/:clave', async (req, res) => {
         res.status(500).json({ message: error.message })
     }
 })
+//Get by ID Method
+router.get('/getOne/:id', async (req, res) => {
+    try {
+        //const data = await Model.findById(req.params.id);
+        var query = { id: req.params.id };
+        const data = await Entrenador.find(query);
+        res.json(data)
+    }
+    catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+})
+
 
 //Update by ID Method
 router.patch('/update/:id', async (req, res) => {
     try {
+        debugger;
         const id = req.params.id;
         const updatedData = req.body;
         const options = { new: true };
 
-        const result = await Entrenador.findByIdAndUpdate(
-            id, updatedData, options
-        )
+        const result = await Entrenador.updateOne({ id: id }, updatedData, options);
 
         res.send(result)
     }

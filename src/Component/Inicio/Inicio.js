@@ -18,14 +18,12 @@ export default function Inicio(props){
     }
 
     const guarduarini = async (e, pkmnid, pkmnname, pkmnimg) => {
-        debugger;
-        fetch('http://localhost:4000/api/teampkmn/post',{
-            method: 'POST',
+        fetch('http://localhost:4000/api/entrenador/update/' + props.settidentrenador ,{
+            method: 'PATCH',
             body: JSON.stringify({
-                idEntrenador: props.settidentrenador,
-                idpkmn: pkmnid,
-                nombrepkmn: pkmnname,
-                imgpkmn: pkmnimg
+                team: [{
+                    id: pkmnid
+                }]
             }),
             headers:{
                 "Accept":"application/json",
@@ -49,7 +47,8 @@ export default function Inicio(props){
 
     const funcsearchpkmn = () => {
         searchteampkmn(props.settidentrenador).then(data => {
-            setpkmnteam(data);
+            debugger;
+            setpkmnteam(data[0].team);
         }).catch(err => {
             console.log(err);
         });
@@ -84,7 +83,7 @@ export default function Inicio(props){
                 <p>Bienvenido, desea empezar a buscar pkmns?</p>
             </div>
             { pkmnteam.length > 0 ? 
-                <button className="nes-btn is-success" onClick={ () => { props.getidpkmnfirst(pkmnteam[0].idpkmn); props.getboolBuscarpkmn(); }} >Buscar</button>
+                <button className="nes-btn is-success" onClick={ () => { props.getidpkmnfirst(pkmnteam[0].id); props.getboolBuscarpkmn(); }} >Buscar</button>
                 : <button className="nes-btn is-primary" onClick={() => setPkmnfirst(true)} >Elegir Inicial</button>
             }             
         </div>

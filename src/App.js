@@ -1,6 +1,5 @@
 import './App.css';
 import React, { useState } from 'react';
-import Home from './Component/home/home';
 import Inicio from './Component/Inicio/Inicio';
 import searchpkmn from './Component/escenarios/searchpkmn';
 import walking from './Component/imgif/walking.gif';
@@ -8,6 +7,7 @@ import pokeballs from './Component/imgif/atrapar.gif';
 import pelea from './Component/imgif/pelea.png';
 import boy from './Component/imgif/boy.gif';
 import girl from './Component/imgif/girl.gif';
+import Ingreso from './Component/ingreso/ingreso';
 
 function App() {
   const [strname, setstrname] = useState('');
@@ -133,7 +133,7 @@ function App() {
             </div>
           : 
           <div  >
-            <Home getuserbool={(value) => {setislogin(value)}} getnameusuario={(value) => {setstrname(value)}} getidentrenador={(value) => {setstridentrenador(value)}}
+            <Ingreso getuserbool={(value) => {setislogin(value)}} getnameusuario={(value) => {setstrname(value)}} getidentrenador={(value) => {setstridentrenador(value)}}
             getsexo={(value) => {setintsexo(value)}} />
           </div> 
           }
