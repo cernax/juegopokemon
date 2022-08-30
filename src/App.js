@@ -4,10 +4,10 @@ import Inicio from './Component/Inicio/Inicio';
 import searchpkmn from './Component/escenarios/searchpkmn';
 import walking from './Component/imgif/walking.gif';
 import pokeballs from './Component/imgif/atrapar.gif';
-import pelea from './Component/imgif/pelea.png';
 import boy from './Component/imgif/boy.gif';
 import girl from './Component/imgif/girl.gif';
 import Ingreso from './Component/ingreso/ingreso';
+import Pelea from './Component/pelea/Pelea';
 
 function App() {
   const [strname, setstrname] = useState('');
@@ -50,7 +50,7 @@ function App() {
     setPkmnbuscando(true);
     setTimeout(() => {
       setPkmnImg(true); 
-      setPkmnbuscando(false)}, 10000); //10000
+      setPkmnbuscando(false)}, 1000); //10000
     await funcsearchpkmn();
   }
 
@@ -77,50 +77,12 @@ function App() {
         <td style={{width:'80%'}}>           
         {
           PkmnImg ? 
-          <div className="nes-container is-centered" style={{ width:'42%', margin:'1rem auto' }}>
-            <div className="nes-table-responsive"  style={{ width:'100%', overflow:'hidden'}}>
-              {/* pelea  style={{ width:'100%', height:'213px', backgroundImage:`url(${pelea})`, backgroundRepeat:'no-repeat', backgroundSize:'100%', bordercollapse: 'collapse'}} */}
-              <div style={{backgroundImage:`url(${PkmnData})`, position: 'absolute', width: '100%', height: '100%', backgroundRepeat:'no-repeat', backgroundSize:'26%', backgroundPosition:'70% 3%'}}></div>          
-              <div style={{backgroundImage:`url(${Pkmnprin})`, position: 'absolute', width: '100%', height: '100%', backgroundRepeat:'no-repeat', backgroundSize:'29%', backgroundPosition:'10% 44%'}}></div>
-              {/* <div style={{backgroundImage:`url(${pelea})`, width: '100%', height: '100px', backgroundRepeat:'no-repeat', backgroundSize:'100%'}}></div> */}
-              
-              <img src={pelea} alt="loading..." style={{width:'100%'}} id='imgpelea' />
-              <table className="nes-table is-bordered is-centered" style={{width:'99%'}}>
-                <tbody>
-                  <tr>
-                    <td>              
-                    <div style={{padding:'1rem 0', width:'23rem', margin:'auto'}}>
-                      <label>
-                        <input type="radio" className="nes-radio" name="answer-dark" />
-                        <span>ATRAPAR</span>
-                      </label>
-
-                      <label>
-                        <input type="radio" className="nes-radio" name="answer-dark" />
-                        <span>PELEAR</span>
-                      </label>
-                      
-                      <label>
-                        <input type="radio" className="nes-radio" name="answer-dark" />
-                        <span>ESCAPAR</span>
-                      </label>
-                      
-                      <label>
-                        <input type="radio" className="nes-radio" name="answer-dark" />
-                        <span>BOLSA</span>
-                      </label>
-                    </div>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div> :
+          <Pelea setPkmnData={PkmnData} setPkmnprin={Pkmnprin} />:
           <></>
         }           
         {
           Pkmnbuscando ?      
-          <div className="nes-table-responsive"  style={{ width:'42%', margin:'1rem auto'}}>
+          <div className="nes-table-responsive"  style={{ width:'60%', margin:'1rem auto'}}>
             {/* busqueda */}
             <img src={walking} alt="loading..." style={{width:'100%'}} />
           </div>

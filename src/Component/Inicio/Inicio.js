@@ -45,9 +45,8 @@ export default function Inicio(props){
         e.preventDefault();
     }
 
-    const funcsearchpkmn = () => {
-        searchteampkmn(props.settidentrenador).then(data => {
-            debugger;
+    const funcsearchpkmn = async () => {
+        await searchteampkmn(props.settidentrenador).then(data => {            
             setpkmnteam(data[0].team);
         }).catch(err => {
             console.log(err);
@@ -56,7 +55,7 @@ export default function Inicio(props){
 
     useEffect(() => {
         funcsearchpkmn();
-    } ,[strname]);
+    } ,[]);
 
     return (
         <>
@@ -77,8 +76,7 @@ export default function Inicio(props){
             :
             <></>
         }
-        <div className="nes-container with-title is-centered" style={{ width:'53%', margin:'1rem auto'}}>
-            <p className="title">{props.setname}</p>            
+        <div className="nes-container with-title is-centered" style={{ width:'60%', margin:'1rem auto'}}>                     
             <div className="nes-container is-rounded is-dark" style={{width:'98%'}}>
                 <p>Bienvenido, desea empezar a buscar pkmns?</p>
             </div>
