@@ -5,10 +5,8 @@ import barmy from '../imgif/red_line.png';
 import hp from '../imgif/hp.png';
 import level from '../imgif/level.png';
 import pelea from '../imgif/pelea.png';
-import searchpkmn from '../escenarios/searchpkmn';
 
 export default function Pelea(props) {
-
 
   return (
     <>    
@@ -22,12 +20,15 @@ export default function Pelea(props) {
               <div style={{backgroundImage:`url(${hp})`, position: 'absolute', width: '13%', height: '100%', backgroundRepeat:'no-repeat', backgroundSize:'22%', backgroundPosition:'85% 13%'}}></div>
               <div style={{backgroundImage:`url(${level})`, position: 'absolute', width: '20%', height: '100%', backgroundRepeat:'no-repeat', backgroundSize:'10%', backgroundPosition:'100% 6%'}}></div>
               <progress class="nes-progress is-primary" value="100" max="100" style={{ position:'absolute', width:'20%', height:'1rem', top:'15.5%', left:'15.5%' }}  ></progress>
+              <div style={{position:'absolute', left:'68%', top:'51%'}}><p>{props.setnameprinname}</p></div>
+              <div style={{position:'absolute', left:'80%', top:'56%'}}><p>{'5'}</p></div>
 
-              <div style={{backgroundImage:`url(${barmy})`, position: 'absolute', width: '100%', height: '100%', backgroundRepeat:'no-repeat', backgroundSize:'29%', backgroundPosition:'85% 50%'}}></div>
-              <div style={{backgroundImage:`url(${hp})`, position: 'absolute', width: '78%', height: '100%', backgroundRepeat:'no-repeat', backgroundSize:'4%', backgroundPosition:'86% 53%'}}></div>
-              <div style={{backgroundImage:`url(${level})`, position: 'absolute', width: '100%', height: '100%', backgroundRepeat:'no-repeat', backgroundSize:'2%', backgroundPosition:'74% 47%'}}></div>
-              <progress class="nes-progress is-primary" value="100" max="100" style={{ position:'absolute', width:'20%', height:'1rem', top:'54.5%', left:'71.5%' }}  ></progress>
-
+              <div style={{backgroundImage:`url(${barmy})`, position: 'absolute', width: '100%', height: '100%', backgroundRepeat:'no-repeat', backgroundSize:'29%', backgroundPosition:'85% 57%'}}></div>
+              <div style={{backgroundImage:`url(${hp})`, position: 'absolute', width: '78%', height: '100%', backgroundRepeat:'no-repeat', backgroundSize:'4%', backgroundPosition:'86% 60%'}}></div>
+              <div style={{backgroundImage:`url(${level})`, position: 'absolute', width: '100%', height: '100%', backgroundRepeat:'no-repeat', backgroundSize:'2%', backgroundPosition:'74% 54%'}}></div>
+              <progress class="nes-progress is-primary" value="100" max="100" style={{ position:'absolute', width:'20%', height:'1rem', top:'61.5%', left:'71.5%' }}  ></progress>
+              <div style={{position:'absolute', left:'12%', top:'5%'}}><p>{props.setnamepkmndata}</p></div> 
+              <div style={{position:'absolute', left:'25%', top:'9.3%'}}><p>{'5'}</p></div>
               {/* level <div style={{backgroundImage:`url(${pelea})`, width: '100%', height: '100px', backgroundRepeat:'no-repeat', backgroundSize:'100%'}}></div> */}
               
               <img src={pelea} alt="loading..." style={{width:'100%'}} id='imgpelea' />
@@ -36,29 +37,29 @@ export default function Pelea(props) {
                   <tr>
                     <td style={{width:'65%', backgroundColor:'rgb(205, 92, 92)', borderRadius:'23px 1px 1px 23px'}}>                          
                         <div className="nes-container" style={{width:'100%', backgroundColor:'rgb(5, 171, 164)', borderRadius:'23px 1px 1px 23px'}}>
-                          <p>¿Que deberia hacer charmander?</p>
+                          <p>¿Que deberia hacer {props.setnameprinname}?</p>
                         </div>     
                     </td>
                     <td>              
                     <div style={{padding:'1rem 0', width:'16rem', margin:'auto'}}>
                       <label>
                         <input type="radio" className="nes-radio" name="answer-dark" />
-                        <span>ATRAPAR</span>
+                        <span>PELEAR</span>
                       </label>
 
                       <label>
                         <input type="radio" className="nes-radio" name="answer-dark" />
-                        <span>PELEAR</span>
-                      </label>
-                      
-                      <label>
-                        <input type="radio" className="nes-radio" name="answer-dark" />
-                        <span>ESCAPAR</span>
-                      </label>
-                      
-                      <label>
-                        <input type="radio" className="nes-radio" name="answer-dark" />
                         <span>BOLSA</span>
+                      </label>
+                      
+                      <label>
+                        <input type="radio" className="nes-radio" name="answer-dark" />
+                        <span>POKÉMON</span>
+                      </label>
+                      
+                      <label>
+                        <input type="radio" className="nes-radio" name="answer-dark" onChange={() => props.getboolBuscarpkmn()} />
+                        <span>CORRER</span>
                       </label>
                     </div>
                     </td>

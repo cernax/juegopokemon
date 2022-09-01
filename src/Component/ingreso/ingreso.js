@@ -21,6 +21,7 @@ export default function Ingreso(props) {
             }
             else{         
                 const sexo = tipsexo ? '0' : '1'; //0 hombre, 1 mujer
+                props.getsexo(sexo);
                 fetch('http://localhost:4000/api/entrenador/post',{
                     method: 'POST',
                     body: JSON.stringify({

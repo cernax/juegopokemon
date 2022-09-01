@@ -1,3 +1,4 @@
+import './inicio.css';
 import React, { useState, useEffect } from "react";
 import searchteampkmn from "./searchteampkmn";
 import searchpkmn from "../escenarios/searchpkmn";
@@ -78,7 +79,7 @@ export default function Inicio(props){
         }
         <div className="nes-container with-title is-centered" style={{ width:'60%', margin:'1rem auto'}}>                     
             <div className="nes-container is-rounded is-dark" style={{width:'98%'}}>
-                <p>Bienvenido, desea empezar a buscar pkmns?</p>
+                <p className="line-1 anim-typewriter">Bienvenido, desea empezar a buscar pkmns?</p>
             </div>
             { pkmnteam.length > 0 ? 
                 <button className="nes-btn is-success" onClick={ () => { props.getidpkmnfirst(pkmnteam[0].id); props.getboolBuscarpkmn(); }} >Buscar</button>

@@ -15,10 +15,13 @@ function App() {
   const [intsexo, setintsexo] = useState(0);
 
   const [PkmnData, setPkmnData] = useState([]);
+  const [pkmndataname, setpkmndataname] = useState('');
   const [Pkmnprin, setPkmnprin] = useState([]);
+  const [pkmnprinname, setpkmnprinname] = useState('');
 
   {/* cambio de escenarios */}
   const [PkmnImg, setPkmnImg] = useState(false);  
+  const [seccionini, setseccionini] = useState('inline');
   const [Pkmnbuscando, setPkmnbuscando] = useState(false);
   const [Pkmnatapear, setPkmnatapear] = useState(false);
   const [islogin, setislogin] = useState(false);
@@ -28,6 +31,7 @@ function App() {
 
       searchpkmn(random).then(data => {          
           setPkmnData(data.sprites.front_default);
+          setpkmndataname(data.name);
       }).catch(err => {
           console.log(err);
       }
@@ -38,7 +42,8 @@ function App() {
   }
   const mipkmn = async (inicial) => {
     await searchpkmn(inicial).then(data => {          
-      setPkmnprin(data.sprites.back_default);
+      setPkmnprin(data.sprites.back_default);     
+      setpkmnprinname(data.name);
     }).catch(err => {
         console.log(err);
     }
@@ -48,9 +53,10 @@ function App() {
     
     setPkmnImg(false); 
     setPkmnbuscando(true);
+    setseccionini('none');
     setTimeout(() => {
       setPkmnImg(true); 
-      setPkmnbuscando(false)}, 1000); //10000
+      setPkmnbuscando(false)}, 10000); //10000
     await funcsearchpkmn();
   }
 
@@ -77,7 +83,7 @@ function App() {
         <td style={{width:'80%'}}>           
         {
           PkmnImg ? 
-          <Pelea setPkmnData={PkmnData} setPkmnprin={Pkmnprin} />:
+          <Pelea setPkmnData={PkmnData} setPkmnprin={Pkmnprin} setnamepkmndata={pkmndataname} setnameprinname={pkmnprinname} getboolBuscarpkmn={Buscarpkmn} />:
           <></>
         }           
         {
@@ -90,7 +96,7 @@ function App() {
           <></>
         }        
         { islogin ? 
-            <div >
+            <div style={ { display:seccionini }  } >
               <Inicio getboolBuscarpkmn={Buscarpkmn} setname={strname} getidpkmnfirst={ (idfirst) =>  mipkmn(idfirst)} settidentrenador={stridentrenador}/>
             </div>
           : 
