@@ -66,10 +66,31 @@ export default function Ingreso(props) {
         // flip-vertical-right 
         // flip-vertical-left
     }
+    const handlersexo = () => {
+        debugger;
+        settipsexo(!tipsexo);
+        let chico = document.getElementById('chico');
+        let chica = document.getElementById('chica');
+
+        if (!tipsexo) {
+            chico.style.filter = 'grayscale(0)';
+            chica.style.filter = 'grayscale(1)';
+            chica.style.animationPlayState = 'paused';
+            chico.style.animationPlayState = 'running';
+        }
+        else {
+            chica.style.filter = 'grayscale(0)';
+            chico.style.filter = 'grayscale(1)';
+            chica.style.animationPlayState = 'running';
+            chico.style.animationPlayState = 'paused';
+        }
+
+    }
 
     useEffect(() => {
         searchlasid().then(data => {
-            setintidentrenador(parseInt(data[0].id) + 1);
+            setintidentrenador(parseInt(data[0].id) + 1);            
+            document.getElementById('chica').style.filter = 'grayscale(1)';
         }).catch(err => {
             console.log(err);
         });
@@ -94,7 +115,7 @@ export default function Ingreso(props) {
                         </div>
                         <br />
                         <div>
-                            <button type="button" className="nes-btn is-primary" onClick={handleSubmit}>ingresar</button>
+                            <button type="button" className="nes-btn is-success" onClick={handleSubmit}>ingresar</button>
                             {' '}
                             <button type="button" className="nes-btn is-primary" onClick={handlercss}>Registrar</button>
                         </div>
@@ -119,26 +140,29 @@ export default function Ingreso(props) {
                             
                         <br />
                         <label>
-                            <input type="radio" className="nes-radio" name="answer" onChange={ () => settipsexo(true) } checked={tipsexo} />
+                            <input type="radio" className="nes-radio" name="answer" onChange={handlersexo} checked={tipsexo} />
                             <span>Chico</span>
                         </label>
                         <label>
-                            <input type="radio" className="nes-radio" name="answer" onChange={ () => settipsexo(false) }  checked={!tipsexo}/>
+                            <input type="radio" className="nes-radio" name="answer" onChange={handlersexo}  checked={!tipsexo}/>
                             <span>Chica</span>
                         </label>
                         <br />
-                        {
+                            {/* <img src={boy}  id='chico' alt='boy' style={{width:'7rem', left:'58%', top:'3%'}} /> */}
+                            <img src={boy}  id='chico' alt='boy' style={{width:'7rem', left:'58%', top:'3%'}} /> 
+                            <img src={girl} id='chica' alt='girl' style={{width:'7rem', left:'58%', top:'3%'}} />
+                        {/* {
                             tipsexo ?
                             <img src={boy} alt='boy' style={{width:'7rem', left:'58%', top:'3%'}} />
                             :
                             <img src={girl} alt='girl' style={{width:'7rem', left:'58%', top:'3%'}} />
-                        }
+                        } */}
                         <br />
                         <br />
                         <div>
                             <button type="button" className="nes-btn is-primary" onClick={handleSubmit}>Registrarse</button>
                             {' '}
-                            <button type="button" className="nes-btn is-primary" onClick={handlerrevercss}>Volver</button>
+                            <button type="button" className="nes-btn is-warning" onClick={handlerrevercss}>Volver</button>
                         </div>
                     </div>
                 </div>

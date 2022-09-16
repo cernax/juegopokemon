@@ -3,11 +3,13 @@ import React, { useState } from 'react';
 import Inicio from './Component/Inicio/Inicio';
 import searchpkmn from './Component/escenarios/searchpkmn';
 import walking from './Component/imgif/walking.gif';
-import pokeballs from './Component/imgif/atrapar.gif';
 import boy from './Component/imgif/boy.gif';
 import girl from './Component/imgif/girl.gif';
+import pokeball from './Component/imgif/pokeball.png';
 import Ingreso from './Component/ingreso/ingreso';
 import Pelea from './Component/pelea/Pelea';
+import Pokedex from './Component/pokedex/Pokedex'
+import Equipo from './Component/team/Equipo'
 
 function App() {
   const [strname, setstrname] = useState('');
@@ -15,6 +17,7 @@ function App() {
   const [intsexo, setintsexo] = useState(0);
 
   const [PkmnData, setPkmnData] = useState([]);
+  const [pkmnidene, setpkmnidene] = useState(0);
   const [pkmndataname, setpkmndataname] = useState('');
   const [Pkmnprin, setPkmnprin] = useState([]);
   const [pkmnprinname, setpkmnprinname] = useState('');
@@ -25,10 +28,12 @@ function App() {
   const [Pkmnbuscando, setPkmnbuscando] = useState(false);
   const [Pkmnatapear, setPkmnatapear] = useState(false);
   const [islogin, setislogin] = useState(false);
+  const [pokedex, setpokedex] = useState(false);
+  const [team, setteam] = useState(false);
 
   const funcsearchpkmn = async () => {
     let random = await generaridpkmnrandom();
-
+    setpkmnidene(random);
       searchpkmn(random).then(data => {          
           setPkmnData(data.sprites.front_default);
           setpkmndataname(data.name);
@@ -56,8 +61,24 @@ function App() {
     setseccionini('none');
     setTimeout(() => {
       setPkmnImg(true); 
-      setPkmnbuscando(false)}, 10000); //10000
+      setPkmnbuscando(false)}, 1000); //10000
     await funcsearchpkmn();
+  }
+
+  const boolequipo = () => {
+    setteam(true);
+    setpokedex(false);
+    setPkmnImg(false);
+    setPkmnbuscando(false);
+    setseccionini('none');
+  }
+
+  const boolpokedex = () => {
+    setpokedex(true);
+    setteam(false);
+    setPkmnImg(false);
+    setPkmnbuscando(false);
+    setseccionini('none');
   }
 
   return (
@@ -73,39 +94,48 @@ function App() {
               <img src={intsexo == 0 ? boy: girl} alt='person' />
               <div>
                 <br />
-                <img src="https://w7.pngwing.com/pngs/57/434/png-transparent-8-bit-pokemon-pixel-art-poke-ball-others-rectangle-bitcoin-pokemon-thumbnail.png" alt="loading..." style={{width:'2rem'}} />                                
+                <img src={pokeball} alt="loading..." style={{width:'2rem'}} onClick={boolequipo} />      
+                <img src='https://ih1.redbubble.net/image.733115337.2227/flat,1000x1000,075,f.jpg' alt="loading..." style={{width:'3rem'}} onClick={boolpokedex} />                             
               </div>
             </div>
         </td>:
             <></>
         
         }
-        <td style={{width:'80%'}}>           
-        {
-          PkmnImg ? 
-          <Pelea setPkmnData={PkmnData} setPkmnprin={Pkmnprin} setnamepkmndata={pkmndataname} setnameprinname={pkmnprinname} getboolBuscarpkmn={Buscarpkmn} />:
-          <></>
-        }           
-        {
-          Pkmnbuscando ?      
-          <div className="nes-table-responsive"  style={{ width:'60%', margin:'1rem auto'}}>
-            {/* busqueda */}
-            <img src={walking} alt="loading..." style={{width:'100%'}} />
-          </div>
-          :
-          <></>
-        }        
-        { islogin ? 
-            <div style={ { display:seccionini }  } >
-              <Inicio getboolBuscarpkmn={Buscarpkmn} setname={strname} getidpkmnfirst={ (idfirst) =>  mipkmn(idfirst)} settidentrenador={stridentrenador}/>
-            </div>
-          : 
-          <div  >
-            <Ingreso getuserbool={(value) => {setislogin(value)}} getnameusuario={(value) => {setstrname(value)}} getidentrenador={(value) => {setstridentrenador(value)}}
-            getsexo={(value) => {setintsexo(value)}} />
-          </div> 
-          }
-        </td>
+         
+          {
+            pokedex ? <Pokedex getestpokedex={ (value) => {setpokedex(value); setseccionini('inline');  } } />
+            :
+            
+            <td style={{width:'80%'}}>   
+            { team ? <Equipo getestpokedex={  (value) => {setteam(value); setseccionini('inline');  }}  settidentrenador={stridentrenador} /> : <></> }      
+            {
+              PkmnImg ? 
+              <Pelea setPkmnData={PkmnData} setPkmnprin={Pkmnprin} setnamepkmndata={pkmndataname} setnameprinname={pkmnprinname} getboolBuscarpkmn={Buscarpkmn} settidentrenador={stridentrenador} setidpkmnene={pkmnidene}  />:
+              <></>
+            }           
+            {
+              Pkmnbuscando ?      
+              <div className="nes-table-responsive"  style={{ width:'60%', margin:'1rem auto'}}>
+                {/* busqueda */}
+                <img src={walking} alt="loading..." style={{width:'100%'}} />
+              </div>
+              :
+              <></>
+            }        
+            { islogin ? 
+                <div style={ { display:seccionini }  } >
+                  <Inicio getboolBuscarpkmn={Buscarpkmn} setname={strname} getidpkmnfirst={ (idfirst) =>  mipkmn(idfirst)} settidentrenador={stridentrenador}/>
+                </div>
+              : 
+              <div  >
+                <Ingreso getuserbool={(value) => {setislogin(value)}} getnameusuario={(value) => {setstrname(value)}} getidentrenador={(value) => {setstridentrenador(value)}}
+                getsexo={(value) => {setintsexo(value)}} />
+              </div> 
+              }
+            </td>
+          } 
+        
       </tr>
     </table>
     </>

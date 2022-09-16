@@ -77,7 +77,7 @@ router.patch('/update/:id', async (req, res) => {
         const updatedData = req.body;
         const options = { new: true };
 
-        const result = await Entrenador.updateOne({ id: id }, updatedData, options);
+        const result = await Entrenador.updateOne({ id: id },{ $push: { team: updatedData  }}, options);
 
         res.send(result)
     }

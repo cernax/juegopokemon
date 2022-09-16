@@ -5,8 +5,38 @@ import barmy from '../imgif/red_line.png';
 import hp from '../imgif/hp.png';
 import level from '../imgif/level.png';
 import pelea from '../imgif/pelea.png';
+import pokeball from '../imgif/pokeball.png';
+import { motion } from "framer-motion";
 
 export default function Pelea(props) {
+
+    const [atrapar, setatrapar] = useState(false);
+    const [pelear, setpelear] = useState(false);
+
+    const atraparpkmn = () => {
+      setatrapar(true);
+      document.getElementsByClassName("jello-vertical")[0].className = "slide-out-bck-center ";
+      guarduarini();
+     
+    }
+    const guarduarini = async () => {
+      fetch('http://localhost:4000/api/entrenador/update/' + props.settidentrenador ,{
+          method: 'PATCH',
+          body: JSON.stringify({id: props.setidpkmnene}),
+          headers:{
+              "Accept":"application/json",
+              "Content-Type":"application/json"
+          }
+      })
+          .then(res => res.json())
+          .then(data => {
+              console.log(data);
+          })
+          .catch(err => {
+              console.error(err);
+          });
+  }
+    
 
   return (
     <>    
@@ -31,13 +61,49 @@ export default function Pelea(props) {
               <div style={{position:'absolute', left:'25%', top:'9.3%'}}><p>{'5'}</p></div>
               {/* level <div style={{backgroundImage:`url(${pelea})`, width: '100%', height: '100px', backgroundRepeat:'no-repeat', backgroundSize:'100%'}}></div> */}
               
+              {/* atrapar */}
+              { atrapar ?
+                  <>
+                  <div  className="pokeball" style={{position: 'absolute', left: '65%', top:'33%'}}>
+                    <img src={pokeball} alt="loading..." style={{width:'2rem'}} />   
+
+                    <div className="star star1">
+                      <svg id="star1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52.95 50.35">
+                        <title>star</title>
+                        <polygon className="cls-1" points="26.47 0 32.72 19.23 52.95 19.23 36.58 31.12 42.83 50.35 26.47 38.47 10.11 50.35 16.36 31.12 0 19.23 20.22 19.23 26.47 0"/>
+                      </svg>
+                    </div>
+
+                    <div className="star star2">
+                      <svg id="star2" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52.95 50.35">
+                        <title>star</title>
+                        <polygon className="cls-1" points="26.47 0 32.72 19.23 52.95 19.23 36.58 31.12 42.83 50.35 26.47 38.47 10.11 50.35 16.36 31.12 0 19.23 20.22 19.23 26.47 0"/>
+                      </svg>
+                    </div>
+
+                    <div className="star star3">
+                      <svg id="star3" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52.95 50.35">
+                        <title>star</title>
+                        <polygon className="cls-1" points="26.47 0 32.72 19.23 52.95 19.23 36.58 31.12 42.83 50.35 26.47 38.47 10.11 50.35 16.36 31.12 0 19.23 20.22 19.23 26.47 0"/>
+                      </svg>
+                    </div>
+                  </div>
+
+                  </>
+                  : <></>
+              }
+
               <img src={pelea} alt="loading..." style={{width:'100%'}} id='imgpelea' />
               <table className="nes-table is-bordered is-centered" style={{width:'99%', textAlign:'start'}} border={0}>
                 <tbody>
                   <tr>
                     <td style={{width:'65%', backgroundColor:'rgb(205, 92, 92)', borderRadius:'23px 1px 1px 23px'}}>                          
                         <div className="nes-container" style={{width:'100%', backgroundColor:'rgb(5, 171, 164)', borderRadius:'23px 1px 1px 23px'}}>
-                          <p>¿Que deberia hacer {props.setnameprinname}?</p>
+                          { !pelear ? 
+                            <p>¿Que deberia hacer {props.setnameprinname}?</p> 
+                            : 
+                            <></>
+                          }
                         </div>     
                     </td>
                     <td>              
@@ -53,8 +119,8 @@ export default function Pelea(props) {
                       </label>
                       
                       <label>
-                        <input type="radio" className="nes-radio" name="answer-dark" />
-                        <span>POKÉMON</span>
+                        <input type="radio" className="nes-radio" name="answer-dark" onChange={atraparpkmn}  />
+                        <span>ATRAPAR</span>
                       </label>
                       
                       <label>
