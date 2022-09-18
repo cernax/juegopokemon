@@ -6,7 +6,8 @@ const pkmns = [];
 
 export default function Equipo(props){
     
-    const [pkmnteam, setpkmnteam] = useState([]);
+    const [pkmnteam, setpkmnteam] = useState(pkmns);
+    const [pkmn, setpkmn] = useState(false);
 
 
     const funcsearchpkmn = async () => {
@@ -24,21 +25,23 @@ export default function Equipo(props){
                         name: resultpkmn.name,
                         img: resultpkmn.sprites.front_default
                     });
+                    setpkmn(true);
                 }
             });
         });
-        setpkmnteam(pkmns);
+
+        //setpkmnteam(pkmns);
     }
 
     useEffect(() => {
         funcsearchpkmn();
-    } ,[]);
+    } ,[pkmn]);
 
     return (
         <div className="nes-container is-centered" style={{ width:'60%', margin:'1rem auto', height:'75%' }}>
             <i class="nes-icon close is-large" style={{ position:"absolute", left:'90%', top:'1%' }} onClick={ () => {props.getestpokedex(false)} } ></i>
             <h1>Equipo</h1>
-            { pkmnteam && pkmnteam.map((pkmn) => {
+            { pkmnteam.map((pkmn) => {
                 return (
                 <div class="nes-container is-rounded" style={{ width:'30%', float:'left', margin:'10px 10px 0 0' }}>
                     <div>

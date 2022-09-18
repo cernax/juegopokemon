@@ -7,11 +7,14 @@ import level from '../imgif/level.png';
 import pelea from '../imgif/pelea.png';
 import pokeball from '../imgif/pokeball.png';
 import { motion } from "framer-motion";
+import searchpkmn from "../escenarios/searchpkmn";
+
 
 export default function Pelea(props) {
 
     const [atrapar, setatrapar] = useState(false);
     const [pelear, setpelear] = useState(false);
+    const [pkmnatacando, setpkmnatacando] = useState([]);
 
     const atraparpkmn = () => {
       setatrapar(true);
@@ -19,6 +22,7 @@ export default function Pelea(props) {
       guarduarini();
      
     }
+
     const guarduarini = async () => {
       fetch('http://localhost:4000/api/entrenador/update/' + props.settidentrenador ,{
           method: 'PATCH',
@@ -35,12 +39,34 @@ export default function Pelea(props) {
           .catch(err => {
               console.error(err);
           });
-  }
+    }
+
+    const pelearpkmn = () => {
+      setpelear(true);
+      const movepokmn = [];
+      debugger;
+      searchpkmn(props.setnameprinname).then((resultpkmn) => {
+        
+        resultpkmn.moves.map( (pkmn) => {
+          if(movepokmn.length < 4){
+            movepokmn.push({
+              name: pkmn.move.name
+            });
+          }
+          else{
+            console.log(movepokmn);
+            setpkmnatacando(movepokmn);
+            return;
+          }
+        } );
+      });
+
+    }
     
 
   return (
     <>    
-        <div className="nes-container is-centered" style={{ width:'60%', margin:'1rem auto' }}>
+        <div className="nes-container is-centered" style={{ width:'75%', margin:'1rem auto' }}>
             <div className="nes-table-responsive"  style={{ width:'100%', overflow:'hidden'}}>
               {/* pelea  style={{ width:'100%', height:'213px', backgroundImage:`url(${pelea})`, backgroundRepeat:'no-repeat', backgroundSize:'100%', bordercollapse: 'collapse'}} */}
               <div className='jello-vertical' style={{backgroundImage:`url(${props.setPkmnData})`, position: 'absolute', width: '100%', height: '100%', backgroundRepeat:'no-repeat', backgroundSize:'26%', backgroundPosition:'70% 3%'}}></div>          
@@ -102,28 +128,40 @@ export default function Pelea(props) {
                           { !pelear ? 
                             <p>¿Que deberia hacer {props.setnameprinname}?</p> 
                             : 
-                            <></>
+                            <>                               
+                              <div style={{width:'35rem'}}>
+                              { pkmnatacando.map((item, index) => {
+                                  return (                                                               
+                                  <label style={{ width:'50%', textAlign:'left' }}>
+                                    <input type="radio" className="nes-radio" name="answer-dark" />
+                                    <span>{item.name}</span>
+                                  </label>
+                                  )
+                                })            
+                              }
+                              </div>
+                            </>
                           }
                         </div>     
                     </td>
                     <td>              
-                    <div style={{padding:'1rem 0', width:'16rem', margin:'auto'}}>
-                      <label>
-                        <input type="radio" className="nes-radio" name="answer-dark" />
+                    <div style={{padding:'1rem 0', width:'17rem', margin:'auto'}}>
+                      <label style={{ width:'50%', textAlign:'left' }}>
+                        <input type="radio" className="nes-radio" name="answer-dark" onChange={pelearpkmn} />
                         <span>PELEAR</span>
                       </label>
 
-                      <label>
+                      <label style={{ width:'50%', textAlign:'left' }}>
                         <input type="radio" className="nes-radio" name="answer-dark" />
                         <span>BOLSA</span>
                       </label>
                       
-                      <label>
+                      <label style={{ width:'50%', textAlign:'left' }}>
                         <input type="radio" className="nes-radio" name="answer-dark" onChange={atraparpkmn}  />
                         <span>ATRAPAR</span>
                       </label>
                       
-                      <label>
+                      <label style={{ width:'50%', textAlign:'left' }}>
                         <input type="radio" className="nes-radio" name="answer-dark" onChange={() => props.getboolBuscarpkmn()} />
                         <span>CORRER</span>
                       </label>
