@@ -6,7 +6,7 @@ const pkmns = [];
 
 export default function Equipo(props){
     
-    const [pkmnteam, setpkmnteam] = useState(pkmns);
+    const [pkmnteam, setpkmnteam] = useState([]);
     const [pkmn, setpkmn] = useState(false);
 
 
@@ -17,15 +17,23 @@ export default function Equipo(props){
         const data = await fetch(url + props.settidentrenador);
         const result = await data.json();
         const teamid = result[0].team;
+
+        const pkmonarr = [];
+
         teamid.map((pkmn) => {
             searchpkmn(pkmn.id).then((resultpkmn) => {    
-                debugger;            
-                if(pkmns.length < teamid.length){
-                    pkmns.push({
+                           
+                if(pkmonarr.length < 6){
+                    pkmonarr.push({
                         name: resultpkmn.name,
                         img: resultpkmn.sprites.front_default
                     });
+                }
+                else{
+                    debugger;
+                    setpkmnteam(pkmonarr);
                     setpkmn(true);
+                  return;
                 }
             });
         });
@@ -41,7 +49,7 @@ export default function Equipo(props){
         <div className="nes-container is-centered" style={{ width:'60%', margin:'1rem auto', height:'75%' }}>
             <i class="nes-icon close is-large" style={{ position:"absolute", left:'90%', top:'1%' }} onClick={ () => {props.getestpokedex(false)} } ></i>
             <h1>Equipo</h1>
-            { pkmnteam.map((pkmn) => {
+            { pkmnteam.map((pkmn, index) => {
                 return (
                 <div class="nes-container is-rounded" style={{ width:'30%', float:'left', margin:'10px 10px 0 0' }}>
                     <div>

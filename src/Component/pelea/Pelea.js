@@ -16,6 +16,9 @@ export default function Pelea(props) {
     const [pelear, setpelear] = useState(false);
     const [pkmnatacando, setpkmnatacando] = useState([]);
 
+    const [pkmnenemigovida, setpkmnenemigovida] = useState(100);
+    const [pkmnvida, setpkmnvida] = useState(100);
+
     const atraparpkmn = () => {
       setatrapar(true);
       document.getElementsByClassName("jello-vertical")[0].className = "slide-out-bck-center ";
@@ -44,7 +47,6 @@ export default function Pelea(props) {
     const pelearpkmn = () => {
       setpelear(true);
       const movepokmn = [];
-      debugger;
       searchpkmn(props.setnameprinname).then((resultpkmn) => {
         
         resultpkmn.moves.map( (pkmn) => {
@@ -62,12 +64,25 @@ export default function Pelea(props) {
       });
 
     }
+
+    const ataque = () => {
+      debugger;
+      document.getElementsByClassName("jello-vertical")[0].className = "bounce-right ";
+      let vida = pkmnenemigovida - generadordedanio();
+      setpkmnenemigovida(vida);
+      return false;
+    }
+
+    const generadordedanio = () => {
+      return Math.floor(Math.random() * ((100 - 1 )+ 1)) + 1;
+    }
     
 
   return (
     <>    
         <div className="nes-container is-centered" style={{ width:'75%', margin:'1rem auto' }}>
             <div className="nes-table-responsive"  style={{ width:'100%', overflow:'hidden'}}>
+              <>
               {/* pelea  style={{ width:'100%', height:'213px', backgroundImage:`url(${pelea})`, backgroundRepeat:'no-repeat', backgroundSize:'100%', bordercollapse: 'collapse'}} */}
               <div className='jello-vertical' style={{backgroundImage:`url(${props.setPkmnData})`, position: 'absolute', width: '100%', height: '100%', backgroundRepeat:'no-repeat', backgroundSize:'26%', backgroundPosition:'70% 3%'}}></div>          
               <div style={{backgroundImage:`url(${props.setPkmnprin})`, position: 'absolute', width: '100%', height: '100%', backgroundRepeat:'no-repeat', backgroundSize:'29%', backgroundPosition:'10% 60%'}}></div>
@@ -75,18 +90,18 @@ export default function Pelea(props) {
               <div style={{backgroundImage:`url(${barenemig})`, position: 'absolute', width: '100%', height: '100%', backgroundRepeat:'no-repeat', backgroundSize:'29%', backgroundPosition:'10% 10%'}}></div>
               <div style={{backgroundImage:`url(${hp})`, position: 'absolute', width: '13%', height: '100%', backgroundRepeat:'no-repeat', backgroundSize:'22%', backgroundPosition:'85% 13%'}}></div>
               <div style={{backgroundImage:`url(${level})`, position: 'absolute', width: '20%', height: '100%', backgroundRepeat:'no-repeat', backgroundSize:'10%', backgroundPosition:'100% 6%'}}></div>
-              <progress class="nes-progress is-primary" value="100" max="100" style={{ position:'absolute', width:'20%', height:'1rem', top:'15.5%', left:'15.5%' }}  ></progress>
+              <progress class="nes-progress is-primary" value={pkmnenemigovida} max="100" style={{ position:'absolute', width:'20%', height:'1rem', top:'15.5%', left:'15.5%' }}  ></progress>
               <div style={{position:'absolute', left:'68%', top:'51%'}}><p>{props.setnameprinname}</p></div>
               <div style={{position:'absolute', left:'80%', top:'56%'}}><p>{'5'}</p></div>
 
               <div style={{backgroundImage:`url(${barmy})`, position: 'absolute', width: '100%', height: '100%', backgroundRepeat:'no-repeat', backgroundSize:'29%', backgroundPosition:'85% 57%'}}></div>
               <div style={{backgroundImage:`url(${hp})`, position: 'absolute', width: '78%', height: '100%', backgroundRepeat:'no-repeat', backgroundSize:'4%', backgroundPosition:'86% 60%'}}></div>
               <div style={{backgroundImage:`url(${level})`, position: 'absolute', width: '100%', height: '100%', backgroundRepeat:'no-repeat', backgroundSize:'2%', backgroundPosition:'74% 54%'}}></div>
-              <progress class="nes-progress is-primary" value="100" max="100" style={{ position:'absolute', width:'20%', height:'1rem', top:'61.5%', left:'71.5%' }}  ></progress>
+              <progress class="nes-progress is-primary" value={pkmnvida} max="100" style={{ position:'absolute', width:'20%', height:'1rem', top:'61.5%', left:'71.5%' }}  ></progress>
               <div style={{position:'absolute', left:'12%', top:'5%'}}><p>{props.setnamepkmndata}</p></div> 
               <div style={{position:'absolute', left:'25%', top:'9.3%'}}><p>{'5'}</p></div>
               {/* level <div style={{backgroundImage:`url(${pelea})`, width: '100%', height: '100px', backgroundRepeat:'no-repeat', backgroundSize:'100%'}}></div> */}
-              
+              </>
               {/* atrapar */}
               { atrapar ?
                   <>
@@ -133,7 +148,7 @@ export default function Pelea(props) {
                               { pkmnatacando.map((item, index) => {
                                   return (                                                               
                                   <label style={{ width:'50%', textAlign:'left' }}>
-                                    <input type="radio" className="nes-radio" name="answer-dark" />
+                                    <input type="radio" className="nes-radio" name="answer-dark" onChange={ataque}  id={item.name} />
                                     <span>{item.name}</span>
                                   </label>
                                   )
