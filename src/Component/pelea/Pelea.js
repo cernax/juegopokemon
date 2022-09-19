@@ -18,11 +18,15 @@ export default function Pelea(props) {
 
     const [pkmnenemigovida, setpkmnenemigovida] = useState(100);
     const [pkmnvida, setpkmnvida] = useState(100);
+    const [checkataque, setcheckataque] = useState(false);
 
     const atraparpkmn = () => {
       setatrapar(true);
       document.getElementsByClassName("jello-vertical")[0].className = "slide-out-bck-center ";
       guarduarini();
+      setTimeout(() => {
+        props.getboolBuscarpkmn();
+      }, 5100);
      
     }
 
@@ -56,7 +60,6 @@ export default function Pelea(props) {
             });
           }
           else{
-            console.log(movepokmn);
             setpkmnatacando(movepokmn);
             return;
           }
@@ -67,9 +70,21 @@ export default function Pelea(props) {
 
     const ataque = () => {
       debugger;
-      document.getElementsByClassName("jello-vertical")[0].className = "bounce-right ";
+      let pkmnene = document.getElementById("pkmnene"); 
+      pkmnene.className = "bounce-right";
       let vida = pkmnenemigovida - generadordedanio();
       setpkmnenemigovida(vida);
+      setTimeout(() => {
+        pkmnene.classList.remove("bounce-right");
+      }, 1000);
+
+      if(vida <= 0){
+        pkmnene.className = "slide-out-bottom";
+        setTimeout(() => {
+          props.getboolBuscarpkmn();
+        }, 1000);
+      }
+
       return false;
     }
 
@@ -84,7 +99,7 @@ export default function Pelea(props) {
             <div className="nes-table-responsive"  style={{ width:'100%', overflow:'hidden'}}>
               <>
               {/* pelea  style={{ width:'100%', height:'213px', backgroundImage:`url(${pelea})`, backgroundRepeat:'no-repeat', backgroundSize:'100%', bordercollapse: 'collapse'}} */}
-              <div className='jello-vertical' style={{backgroundImage:`url(${props.setPkmnData})`, position: 'absolute', width: '100%', height: '100%', backgroundRepeat:'no-repeat', backgroundSize:'26%', backgroundPosition:'70% 3%'}}></div>          
+              <div id='pkmnene' className='jello-vertical' style={{backgroundImage:`url(${props.setPkmnData})`, position: 'absolute', width: '100%', height: '100%', backgroundRepeat:'no-repeat', backgroundSize:'26%', backgroundPosition:'70% 3%'}}></div>          
               <div style={{backgroundImage:`url(${props.setPkmnprin})`, position: 'absolute', width: '100%', height: '100%', backgroundRepeat:'no-repeat', backgroundSize:'29%', backgroundPosition:'10% 60%'}}></div>
 
               <div style={{backgroundImage:`url(${barenemig})`, position: 'absolute', width: '100%', height: '100%', backgroundRepeat:'no-repeat', backgroundSize:'29%', backgroundPosition:'10% 10%'}}></div>
@@ -148,7 +163,7 @@ export default function Pelea(props) {
                               { pkmnatacando.map((item, index) => {
                                   return (                                                               
                                   <label style={{ width:'50%', textAlign:'left' }}>
-                                    <input type="radio" className="nes-radio" name="answer-dark" onChange={ataque}  id={item.name} />
+                                    <input type="radio" className="nes-radio" name="answer-dark" onChange={ataque}  id={item.name} checked={checkataque} />
                                     <span>{item.name}</span>
                                   </label>
                                   )

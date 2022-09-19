@@ -19,7 +19,6 @@ export default function Equipo(props){
         const teamid = result[0].team;
 
         const pkmonarr = [];
-
         teamid.map((pkmn) => {
             searchpkmn(pkmn.id).then((resultpkmn) => {    
                            
@@ -29,8 +28,7 @@ export default function Equipo(props){
                         img: resultpkmn.sprites.front_default
                     });
                 }
-                else{
-                    debugger;
+                if (pkmonarr.length === teamid.length) {
                     setpkmnteam(pkmonarr);
                     setpkmn(true);
                   return;

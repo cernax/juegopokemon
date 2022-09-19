@@ -104,7 +104,7 @@ function App() {
         }
          
           {
-            pokedex ? <Pokedex getestpokedex={ (value) => {setpokedex(value); setseccionini('inline');  } } />
+            pokedex ? <Pokedex getestpokedex={ (value) => {setpokedex(value); setseccionini('inline');  } } settidentrenador={stridentrenador}/>
             :
             
             <td style={{width:'80%'}}>   
