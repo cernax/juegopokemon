@@ -18,6 +18,7 @@ function App() {
 
   const [PkmnData, setPkmnData] = useState([]);
   const [pkmnidene, setpkmnidene] = useState(0);
+  const [pkmnidmy, setpkmnidmy] = useState(0);
   const [pkmndataname, setpkmndataname] = useState('');
   const [Pkmnprin, setPkmnprin] = useState([]);
   const [pkmnprinname, setpkmnprinname] = useState('');
@@ -46,6 +47,7 @@ function App() {
     return await Math.floor(Math.random() * ((151 - 1 )+ 1)) + 1;
   }
   const mipkmn = async (inicial) => {
+    setpkmnidmy(inicial);
     await searchpkmn(inicial).then(data => {          
       setPkmnprin(data.sprites.back_default);     
       setpkmnprinname(data.name);
@@ -111,7 +113,7 @@ function App() {
             { team ? <Equipo getestpokedex={  (value) => {setteam(value); setseccionini('inline');  }}  settidentrenador={stridentrenador} /> : <></> }      
             {
               PkmnImg ? 
-              <Pelea setPkmnData={PkmnData} setPkmnprin={Pkmnprin} setnamepkmndata={pkmndataname} setnameprinname={pkmnprinname} getboolBuscarpkmn={Buscarpkmn} settidentrenador={stridentrenador} setidpkmnene={pkmnidene}  />:
+              <Pelea setPkmnData={PkmnData} setPkmnprin={Pkmnprin} setnamepkmndata={pkmndataname} setnameprinname={pkmnprinname} getboolBuscarpkmn={Buscarpkmn} settidentrenador={stridentrenador} setidpkmnene={pkmnidene}  setidpkmnmy={pkmnidmy}  />:
               <></>
             }           
             {

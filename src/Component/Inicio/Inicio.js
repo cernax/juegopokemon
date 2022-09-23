@@ -21,7 +21,7 @@ export default function Inicio(props){
     const guarduarini = async (e, pkmnid, pkmnname, pkmnimg) => {
         fetch('http://localhost:4000/api/entrenador/update/' + props.settidentrenador ,{
             method: 'PATCH',
-            body: JSON.stringify({id: pkmnid}),
+            body: JSON.stringify({id: pkmnid, vida: 100}),
             headers:{
                 "Accept":"application/json",
                 "Content-Type":"application/json"

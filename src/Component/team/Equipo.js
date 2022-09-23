@@ -12,11 +12,12 @@ export default function Equipo(props){
 
     const funcsearchpkmn = async () => {
 
-
         let url = 'http://localhost:4000/api/entrenador/getOne/';
         const data = await fetch(url + props.settidentrenador);
         const result = await data.json();
         const teamid = result[0].team;
+        let countequipopkmn = teamid.length > 6 ? 6 : teamid.length;
+
 
         const pkmonarr = [];
         teamid.map((pkmn) => {
@@ -28,7 +29,7 @@ export default function Equipo(props){
                         img: resultpkmn.sprites.front_default
                     });
                 }
-                if (pkmonarr.length === teamid.length) {
+                if (pkmonarr.length === countequipopkmn) {
                     setpkmnteam(pkmonarr);
                     setpkmn(true);
                   return;

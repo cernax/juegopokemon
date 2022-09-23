@@ -20,9 +20,19 @@ export default function Pelea(props) {
     const [pkmnvida, setpkmnvida] = useState(100);
     const [checkataque, setcheckataque] = useState(false);
 
+    const getvida = async () => {
+
+      let url = 'http://localhost:4000/api/entrenador/getOne/';
+      const data = await fetch(url + props.settidentrenador);
+      const result = await data.json();
+      const teamid = result[0].team;
+      setpkmnvida(teamid[0].vida);
+
+    } 
     const atraparpkmn = () => {
       setatrapar(true);
-      document.getElementsByClassName("jello-vertical")[0].className = "slide-out-bck-center ";
+      let pkmnene = document.getElementById("pkmnene"); 
+      pkmnene.className = "slide-out-bck-center";  
       guarduarini();
       setTimeout(() => {
         props.getboolBuscarpkmn();
@@ -33,11 +43,29 @@ export default function Pelea(props) {
     const guarduarini = async () => {
       fetch('http://localhost:4000/api/entrenador/update/' + props.settidentrenador ,{
           method: 'PATCH',
-          body: JSON.stringify({id: props.setidpkmnene}),
+          body: JSON.stringify({id: props.setidpkmnene, vida:100}),
           headers:{
               "Accept":"application/json",
               "Content-Type":"application/json"
           }
+      })
+          .then(res => res.json())
+          .then(data => {
+              console.log(data);
+          })
+          .catch(err => {
+              console.error(err);
+          });
+          
+    }
+    const updatevidapkmn = (identrenador, idpkmn, vidapkmn) => {
+      fetch('http://localhost:4000/api/entrenador/update/' + identrenador + '/' + idpkmn + '/' + vidapkmn ,{
+          method: 'PUT',
+          headers:{
+            "Accept": "*/*",
+            'Content-Type': '*/*',
+          },
+          body: "",
       })
           .then(res => res.json())
           .then(data => {
@@ -69,7 +97,6 @@ export default function Pelea(props) {
     }
 
     const ataque = () => {
-      debugger;
       let pkmnene = document.getElementById("pkmnene"); 
       pkmnene.className = "bounce-right";
       let vida = pkmnenemigovida - generadordedanio();
@@ -84,6 +111,27 @@ export default function Pelea(props) {
           props.getboolBuscarpkmn();
         }, 1000);
       }
+      setTimeout(() => {
+        let pkmnmy = document.getElementById("pkmmy"); 
+        pkmnmy.className = "bounce-right";
+        let vidapkmnmy = pkmnvida - generadordedanio();
+  
+        setpkmnvida(vidapkmnmy);
+        
+        updatevidapkmn(props.settidentrenador, props.setidpkmnmy, vidapkmnmy);
+        
+        setTimeout(() => {
+          pkmnmy.classList.remove("bounce-right");
+        }, 1000);
+
+        if(vidapkmnmy <= 0){
+          pkmnmy.className = "slide-out-bottom";
+          setTimeout(() => {
+            props.getboolBuscarpkmn();
+          }, 1000);
+        }
+
+      }, 1000);
 
       return false;
     }
@@ -92,6 +140,9 @@ export default function Pelea(props) {
       return Math.floor(Math.random() * ((100 - 1 )+ 1)) + 1;
     }
     
+    useEffect(() => {
+      getvida();
+    }, []);
 
   return (
     <>    
@@ -100,7 +151,7 @@ export default function Pelea(props) {
               <>
               {/* pelea  style={{ width:'100%', height:'213px', backgroundImage:`url(${pelea})`, backgroundRepeat:'no-repeat', backgroundSize:'100%', bordercollapse: 'collapse'}} */}
               <div id='pkmnene' className='jello-vertical' style={{backgroundImage:`url(${props.setPkmnData})`, position: 'absolute', width: '100%', height: '100%', backgroundRepeat:'no-repeat', backgroundSize:'26%', backgroundPosition:'70% 3%'}}></div>          
-              <div style={{backgroundImage:`url(${props.setPkmnprin})`, position: 'absolute', width: '100%', height: '100%', backgroundRepeat:'no-repeat', backgroundSize:'29%', backgroundPosition:'10% 60%'}}></div>
+              <div id='pkmmy' style={{backgroundImage:`url(${props.setPkmnprin})`, position: 'absolute', width: '100%', height: '100%', backgroundRepeat:'no-repeat', backgroundSize:'29%', backgroundPosition:'10% 60%'}}></div>
 
               <div style={{backgroundImage:`url(${barenemig})`, position: 'absolute', width: '100%', height: '100%', backgroundRepeat:'no-repeat', backgroundSize:'29%', backgroundPosition:'10% 10%'}}></div>
               <div style={{backgroundImage:`url(${hp})`, position: 'absolute', width: '13%', height: '100%', backgroundRepeat:'no-repeat', backgroundSize:'22%', backgroundPosition:'85% 13%'}}></div>
