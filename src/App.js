@@ -8,8 +8,8 @@ import girl from './Component/imgif/girl.gif';
 import pokeball from './Component/imgif/pokeball.png';
 import Ingreso from './Component/ingreso/ingreso';
 import Pelea from './Component/pelea/Pelea';
-import Pokedex from './Component/pokedex/Pokedex'
-import Equipo from './Component/team/Equipo'
+import Pokedex from './Component/pokedex/Pokedex';
+import Equipo from './Component/team/Equipo';
 
 function App() {
   const [strname, setstrname] = useState('');

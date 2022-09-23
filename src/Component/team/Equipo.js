@@ -8,6 +8,7 @@ export default function Equipo(props){
     
     const [pkmnteam, setpkmnteam] = useState([]);
     const [pkmn, setpkmn] = useState(false);
+    const [pkmnvida, setpkmnvida] = useState(100);
 
 
     const funcsearchpkmn = async () => {
@@ -26,9 +27,11 @@ export default function Equipo(props){
                 if(pkmonarr.length < 6){
                     pkmonarr.push({
                         name: resultpkmn.name,
-                        img: resultpkmn.sprites.front_default
+                        img: resultpkmn.sprites.front_default,
+                        vida: pkmn.vida
                     });
                 }
+                debugger;
                 if (pkmonarr.length === countequipopkmn) {
                     setpkmnteam(pkmonarr);
                     setpkmn(true);
@@ -54,7 +57,7 @@ export default function Equipo(props){
                     <div>
                         <p>{pkmn.name}</p>
                         <img src={pkmn.img} alt={pkmn.name} style={{width:'7rem', left:'58%', top:'3%', margin:'10px', borderStyle:'solid', borderColor:pkmn.color }} />
-                        <progress class="nes-progress is-primary" value="100" max="100" style={{ width:'70%', height:'1rem', top:'15.5%', left:'15.5%' }}  ></progress>              
+                        <progress class="nes-progress is-primary" value={pkmn.vida} max="100" style={{ width:'70%', height:'1rem', top:'15.5%', left:'15.5%' }}  ></progress>              
                     </div>
                           
                 </div>)

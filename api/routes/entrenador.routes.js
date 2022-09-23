@@ -87,12 +87,26 @@ router.patch('/update/:id', async (req, res) => {
 //Update by ID Method
 router.put('/update/:id/:idpkmn/:vidapkmn', async (req, res) => {
     try {
-        debugger;
         const id = req.params.id;
         const updatedData = parseInt(req.params.vidapkmn);
         const idpkmn = parseInt(req.params.idpkmn);
 
         const result = await Entrenador.updateOne({ id: id },{ $set: { "team.$[elemn].vida": updatedData  } },{ arrayFilters : [{ "elemn.id": idpkmn }] }) ;
+
+        res.send(result)
+    }
+    catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+})
+//Update by ID Method
+router.put('/update/:id', async (req, res) => {
+    try {
+        const id = req.params.id;
+        const updatedData = parseInt(req.params.vidapkmn);
+        const idpkmn = parseInt(req.params.idpkmn);
+
+        const result = await Entrenador.updateOne({ id: id },{ $set: { "team.$[].vida": 100  } }) ;
 
         res.send(result)
     }
